@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TextInput,Alert } from 'react-native'
 import React,{useState} from 'react'
 import CustomButton from '../components/CustomButton'
-export default function GameStartScreen() {
+export default function GameStartScreen({onSendNumber}) {
     const [enteredNumber, setEnteredNumber] = useState('')
     function resetHandler(){
         setEnteredNumber('');
@@ -10,8 +10,10 @@ export default function GameStartScreen() {
         const chosenNumber = parseInt(enteredNumber);
         if(isNaN(chosenNumber) ||chosenNumber <= 0 || chosenNumber > 99){
             Alert.alert('Invalid value','Number must be between 1 and 99',
-                [{text: 'OK',style:'destructive',onPress: resetHandler}])
+                [{text: 'OK',style:'destructive',onPress: resetHandler}]);
+            return;
         }
+        onSendNumber(chosenNumber);
     }
     function numberHandler(text){
         
