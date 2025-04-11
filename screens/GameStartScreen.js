@@ -1,18 +1,37 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TextInput,Alert } from 'react-native'
+import React,{useState} from 'react'
 import CustomButton from '../components/CustomButton'
 export default function GameStartScreen() {
+    const [enteredNumber, setEnteredNumber] = useState('')
+    function resetHandler(){
+        setEnteredNumber('');
+    }
+    function submitHandler(){
+        const chosenNumber = parseInt(enteredNumber);
+        if(isNaN(chosenNumber) ||chosenNumber <= 0 || chosenNumber > 99){
+            Alert.alert('Invalid value','Number must be between 1 and 99',
+                [{text: 'OK',style:'destructive',onPress: resetHandler}])
+        }
+    }
+    function numberHandler(text){
+        
+        setEnteredNumber(text);
+    }
     return (
         <View style={styles.container}>
             <Text>Guess the Number</Text>
             <View style={styles.card}>
-                <TextInput style={styles.input} keyboardType='number-pad' />
+                <TextInput style={styles.input} keyboardType='number-pad' 
+                maxLength={2}
+                onChangeText={numberHandler}
+                value={enteredNumber}
+                />
                 <View style={styles.buttonsContainer}>
                     <View style={styles.buttonContainer}>
-                    <CustomButton>Delete</CustomButton>
+                    <CustomButton onPress={resetHandler}>Delete</CustomButton>
                     </View>
                     <View style={styles.buttonContainer}>
-                    <CustomButton>Submit</CustomButton>
+                    <CustomButton onPress={submitHandler}>Submit</CustomButton>
                     </View>
                 </View>
                 
